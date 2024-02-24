@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Login Form</title>
+        <link rel="stylesheet" href="/styles/login.css">
+    </head>
+    <body>
+        
+        <form action="/verify-login" method="POST">
+            <h1>Login Form</h1>
+            <input type="email" name="email" placeholder="Enter your Email"/>
+            <input type="password" name="password" placeholder="Enter your Password"/>
+            <button>Login</button>
+            <div class="line1" style="font-size:17px;">No Account? <a href="/register" style="color:black;margin-left:3px;">Register Here</a></div>
+
+            <a href="/admin-login" style="color:black;font-size:17px;">Admin Login</a>
+        </form>
+    </body>
+</html>
