@@ -1,4 +1,4 @@
-const User = require('../models/user').default;
+const User = require('../models/user');
 // const db = require('../config/db.js');
 const Books = require('../models/books');
 const mongoose = require('mongoose');
