@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-import { hash, compare } from 'bcrypt';
-const userSchema = new Schema({
+const mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
+const userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -14,20 +14,13 @@ const userSchema = new Schema({
         required:true
     },
     userid:{
-      type:String,
-      required:true
+        type:String,
+        required:true
     },
     isAdmin:{
-      type:Boolean,
-      default:false
-    },
-    reviews: [
-      {
-          user: String,
-          rating: Number, 
-          comment: String,
-      }
-  ],
+        type:Boolean,
+        default:false
+    }
 });
 
 userSchema.pre('save', async function (next) {
@@ -35,7 +28,9 @@ userSchema.pre('save', async function (next) {
       if (!this.isModified('password')) {
         return next();
       }
-      const hashedPassword = await hash(this.password, 10);
+  
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(this.password, salt);
       this.password = hashedPassword;
       next();
     } catch (error) {
@@ -43,7 +38,9 @@ userSchema.pre('save', async function (next) {
     }
   });
   userSchema.methods.comparePassword = async function (password) {
-    return compare(password, this.password);
+    return bcrypt.compare(password, this.password);
   };
-const UserData = model('UserData',userSchema);
-export default UserData;
+  
+
+const UserData = mongoose.model('UserData',userSchema);
+module.exports = UserData;
